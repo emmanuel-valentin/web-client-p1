@@ -68,6 +68,7 @@ public class ClientDAO {
             ps.setString(2, clientDTO.getEntity().getPaterno());
             ps.setString(3, clientDTO.getEntity().getMaterno());
             ps.setString(4, clientDTO.getEntity().getEmail());
+            ps.setInt(5, clientDTO.getEntity().getId());
 
             ps.executeUpdate();
         } finally {
