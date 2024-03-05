@@ -4,6 +4,12 @@
  */
 package com.ipn.mx.model.entities;
 
+import com.ipn.mx.model.dto.ClientDTO;
+
+import java.sql.SQLException;
+
+import com.ipn.mx.model.dao.ClientDAO;
+
 /**
  *
  * @author emma
@@ -60,6 +66,22 @@ public class Client {
 
     @Override
     public String toString() {
-        return "{ id: " + this.id + "\nnombre: " + this.nombre + "\npaterno: " + this.paterno + "\nmaterno: " + this.materno + "\nemail: " + this.email + "\n}";
+        return "{ id: " + this.id + "\nnombre: " + this.nombre + "\npaterno: " + this.paterno + "\nmaterno: "
+                + this.materno + "\nemail: " + this.email + "\n}";
+    }
+
+    public static void main(String[] args) throws SQLException {
+        ClientDTO DTO = new ClientDTO();
+        DTO.getEntity().setId(8);
+        // DTO.getEntity().setNombre("Peter");
+        // DTO.getEntity().setPaterno("Parker");
+        // DTO.getEntity().setMaterno("Spiderman");
+        // DTO.getEntity().setEmail("spidy@avengers.com");
+
+        ClientDAO DAO = new ClientDAO();
+        // DAO.create(DTO);
+        // DAO.update(DTO);
+        // DAO.delete(DTO);
+
     }
 }

@@ -17,7 +17,11 @@ import java.util.logging.Logger;
  * @author emma
  */
 public class ClientDAO {
-    private final String SQL_INSERT = "INSERT INTO Client (nombre, paterno, materno, email) VALUES (?, ?, ?, ?)";
+    private static final String SQL__INSERT = "INSERT INTO Client (nombre, paterno, materno, email) VALUES (?, ?, ?, ?)";
+    private static final String SQL__UPDATE = "UPDATE Client SET nombre = ?, paterno = ?, materno = ?, email = ? WHERE id = ?";
+    private static final String SQL__DELETE = "DELETE FROM Client WHERE id = ?";
+    private static final String SQL__SELECT_ALL = "SELECT * FROM Client";
+    private static final String SQL__SELECT = "SELECT * FROM Client WHERE id= ?";
     private Connection conn;
 
     private void getConnection() {
@@ -37,9 +41,8 @@ public class ClientDAO {
     public void create(ClientDTO clientDTO) throws SQLException {
         getConnection();
         PreparedStatement ps = null;
-
         try {
-            ps = conn.prepareStatement(SQL_INSERT);
+            ps = conn.prepareStatement(SQL__INSERT);
             ps.setString(1, clientDTO.getEntity().getNombre());
             ps.setString(2, clientDTO.getEntity().getPaterno());
             ps.setString(3, clientDTO.getEntity().getMaterno());
@@ -54,5 +57,41 @@ public class ClientDAO {
                 conn.close();
             }
         }
+    }
+
+    public void update(ClientDTO clientDTO) throws SQLException {
+        getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(SQL__UPDATE);
+            ps.setString(1, clientDTO.getEntity().getNombre());
+            ps.setString(2, clientDTO.getEntity().getPaterno());
+            ps.setString(3, clientDTO.getEntity().getMaterno());
+            ps.setString(4, clientDTO.getEntity().getEmail());
+            ps.setInt(5, clientDTO.getEntity().getId());
+
+            ps.executeUpdate();
+        } finally {
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+    }
+
+    public void delete(ClientDTO dto) throws SQLException {
+        getConnection();
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(SQL__DELETE);
+            ps.setInt(1, dto.getEntity().getId());
+            ps.executeUpdate();
+        } finally {
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+
     }
 }
